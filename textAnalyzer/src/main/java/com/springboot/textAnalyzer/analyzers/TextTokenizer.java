@@ -5,9 +5,11 @@ public class TextTokenizer {
   private String rawText;
   private ArrayList<String> sentences;
   private ArrayList<String> words;
+  private ArrayList<String> complexWords;
   private int sentenceCount;
   private int wordCount;
   private int syllableCount;
+  private int complexWordCount; 
 
   public TextTokenizer(String rawText) {
     this.rawText = rawText;
@@ -16,6 +18,8 @@ public class TextTokenizer {
     words = findWords();
     wordCount = words.size();
     syllableCount = totalSyllables();
+    complexWords = findComplexWords();
+    complexWordCount = complexWords.size();
   }
 
   public String getRawText() {
@@ -37,6 +41,12 @@ public class TextTokenizer {
   
   public int getSyllableCount() {
     return syllableCount;
+  }
+  public ArrayList<String> getComplexWords() {
+    return complexWords;
+  }
+  public int getComplexWordCount() {
+    return complexWordCount;
   }
   
   public ArrayList<String> findSentences() {
@@ -107,6 +117,16 @@ public class TextTokenizer {
       total += countSyllables(word);  
     }
    return total;   
+  }
+  // finds complex words with more than 2 syllables
+  public ArrayList<String> findComplexWords() {
+    ArrayList<String> complexWords = new ArrayList<String>();
+    for (String word : words) {
+      if (countSyllables(word) > 2) {
+        complexWords.add(word);
+      }
+    }
+    return complexWords;
   }
   
 }
