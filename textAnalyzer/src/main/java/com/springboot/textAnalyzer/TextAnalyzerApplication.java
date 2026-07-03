@@ -14,7 +14,11 @@ public class TextAnalyzerApplication {
 
 		TextTokenizer tokenizer = new TextTokenizer("Hello, World!");
 		ReadabilityAnalyzer analyzer = new ReadabilityAnalyzer(tokenizer);
-		System.out.println("Grade Level: " + analyzer.categoricalScore());
+		System.out.println("Grade Level: " + analyzer.readabilityScore());
+		
+		
+		TextTokenizer tokenizer2 = new TextTokenizer("create");
+		System.out.println("syllables: " + tokenizer2.getSyllableCount());
 	}
 
 }

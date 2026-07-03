@@ -1,15 +1,20 @@
 package com.springboot.textAnalyzer.analyzers;
-
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 public class ReadabilityAnalyzer {
     private final int wordCount;
     private final int sentenceCount;
     private final int syllableCount;
     private final int complexWordCount;
+    private final List<String> sentences;
     public ReadabilityAnalyzer(TextTokenizer tokenizer) {
         this.wordCount = tokenizer.getWordCount();
         this.sentenceCount = tokenizer.getSentenceCount();
         this.syllableCount = tokenizer.getSyllableCount();
         this.complexWordCount = tokenizer.getComplexWordCount();
+        this.sentences = tokenizer.getSentences();
     }
 
     // uses flesch-kincaid equation to calculate grade level
@@ -41,7 +46,39 @@ public class ReadabilityAnalyzer {
         }
     }
 
-    public String categoricalScore() {
+    public String getSentenceComplexity(String sentence) {
+        TextTokenizer sentenceTokenizer = new TextTokenizer(sentence);
+        // 1. Prevent crash on empty inputs
+        double wordCount = (double) sentenceTokenizer.getWordCount();
+        if (wordCount == 0) {
+            return "Easy"; 
+        }
+
+// 2. Calculate the Sentence Complexity (SC) score
+double SC = ((sentence.length() / wordCount) * 2.0) 
+          + ((sentenceTokenizer.getComplexWordCount() / wordCount) * 20.0) 
+          + (wordCount * 0.2);
+
+        // 3. Classify into 3 levels
+        if (SC < 18.0) {
+            return "Easy";
+        } else if (SC <= 28.0) {
+            return "Medium";
+        } else {
+            return "Hard";
+        }
+    }
+    public List<Map<String, String>> pairSentenceComplexity() {
+        List<Map<String, String>> sentenceComplexityPairs = new ArrayList<>();
+        for (String sentence : sentences) {
+            Map<String, String> pair = new HashMap<>();
+            pair.put("sentence", sentence);
+            pair.put("category", getSentenceComplexity(sentence));
+            sentenceComplexityPairs.add(pair);
+        }
+        return sentenceComplexityPairs;
+    }
+    public String readabilityScore() {
         double average = (kincaid() + gunningFog() + smog()) / 3;
         if (average < 10) {
             return "Easy";
@@ -51,6 +88,7 @@ public class ReadabilityAnalyzer {
             return "Hard";
         }
     }
+
 
     // converts flesch-kincaid to readable grade level
     public String gradeLevel() {

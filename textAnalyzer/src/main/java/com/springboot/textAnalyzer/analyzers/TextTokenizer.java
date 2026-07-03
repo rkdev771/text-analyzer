@@ -1,11 +1,12 @@
 package com.springboot.textAnalyzer.analyzers;
 import java.util.ArrayList;
+import java.util.List;
 
 public class TextTokenizer {
   private String rawText;
-  private ArrayList<String> sentences;
-  private ArrayList<String> words;
-  private ArrayList<String> complexWords;
+  private List<String> sentences;
+  private List<String> words;
+  private List<String> complexWords;
   private int sentenceCount;
   private int wordCount;
   private int syllableCount;
@@ -25,7 +26,7 @@ public class TextTokenizer {
   public String getRawText() {
     return rawText;
   }
-  public ArrayList<String> getSentences() {
+  public List<String> getSentences() {
     return sentences;
   }
   public int getSentenceCount() {
@@ -35,21 +36,21 @@ public class TextTokenizer {
     return wordCount;
   }
   
-  public ArrayList<String> getWords() {
+  public List<String> getWords() {
     return words;
   }
   
   public int getSyllableCount() {
     return syllableCount;
   }
-  public ArrayList<String> getComplexWords() {
+  public List<String> getComplexWords() {
     return complexWords;
   }
   public int getComplexWordCount() {
     return complexWordCount;
   }
   
-  public ArrayList<String> findSentences() {
+  public List<String> findSentences() {
     sentences = new ArrayList<String>();
     String current = "";
     for (int i=0; i < rawText.length(); i++) {
@@ -65,8 +66,8 @@ public class TextTokenizer {
     }
     return sentences;
   }
-  public ArrayList<String> findWords() {
-    ArrayList<String> words = new ArrayList<String>();
+  public List<String> findWords() {
+    List<String> words = new ArrayList<String>();
 
     for (String word : rawText.split(" ")) {
       String cleanWord = word.toLowerCase().replaceAll("[^a-z]", ""); // remove anything that isnt a-z
@@ -82,23 +83,24 @@ public class TextTokenizer {
   //PLEASE REVISE THIS METHOD TO ACCOUNT FOR MORE EDGE CASES, SUCH AS "LE" ENDINGS, AND PREVENT COUNTING SILENT "E"s
   public int countSyllables(String word) {    
     int count = 0;
-    String vowels = "aeiouy"; 
+    String vowels = "aeiouy";
+    char prevVowel = '\0'; //primitive types must have a value
     boolean wasVowel = false;
     //this loop counts vowels excluding adjacent vowels
     for(int i=0; i < word.length(); i++) {
       if (vowels.indexOf(word.charAt(i)) != -1 && !wasVowel) {
         wasVowel = true;
+        prevVowel = word.charAt(i);
         count++;
       }
       if(vowels.indexOf(word.charAt(i)) == -1) {
         wasVowel = false;
       }
-      
     }
     //ensures short words have 1 syllable
     if (count < 1 || word.length() < 3) {count = 1;}
     
-    //special case where words ending in "le" count as a syllable
+    //special case where words ending in "le" that don't have a preceding vowel count as a syllable
     else if (word.substring(word.length()-2).equals("le") && vowels.indexOf(word.charAt(word.length()-3)) == -1) {
       return count;
     }
@@ -119,8 +121,8 @@ public class TextTokenizer {
    return total;   
   }
   // finds complex words with more than 2 syllables
-  public ArrayList<String> findComplexWords() {
-    ArrayList<String> complexWords = new ArrayList<String>();
+  public List<String> findComplexWords() {
+    List<String> complexWords = new ArrayList<String>();
     for (String word : words) {
       if (countSyllables(word) > 2) {
         complexWords.add(word);
