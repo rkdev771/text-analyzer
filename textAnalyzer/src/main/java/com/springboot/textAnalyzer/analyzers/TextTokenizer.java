@@ -80,37 +80,56 @@ public class TextTokenizer {
   }
   //aproximates total syllables in a word
 
-  //PLEASE REVISE THIS METHOD TO ACCOUNT FOR MORE EDGE CASES, SUCH AS "LE" ENDINGS, AND PREVENT COUNTING SILENT "E"s
   public int countSyllables(String word) {    
     int count = 0;
     String vowels = "aeiouy";
-    char prevVowel = '\0'; //primitive types must have a value
     boolean wasVowel = false;
+    boolean previousI = false;
     //this loop counts vowels excluding adjacent vowels
     for(int i=0; i < word.length(); i++) {
+      
       if (vowels.indexOf(word.charAt(i)) != -1 && !wasVowel) {
         wasVowel = true;
-        prevVowel = word.charAt(i);
+
         count++;
       }
+
+      if (previousI && vowels.indexOf(word.charAt(i)) != -1 && word.charAt(i) != 'i') {
+        count++;
+      }
+
+      if (word.charAt(i) == 'i') {
+        previousI = true;
+      } else {
+        previousI = false;
+      }
+
       if(vowels.indexOf(word.charAt(i)) == -1) {
         wasVowel = false;
       }
     }
-    //ensures short words have 1 syllable
-    if (count < 1 || word.length() < 3) {count = 1;}
     
-    //special case where words ending in "le" that don't have a preceding vowel count as a syllable
-    else if (word.substring(word.length()-2).equals("le") && vowels.indexOf(word.charAt(word.length()-3)) == -1) {
-      return count;
-    }
+    
+    //ensures short words have 1 syllable
+    if (word.length() > 2) {
+      //special case where words ending in "le" that don't have a preceding vowel count as a syllable
+      String wordEnding = word.substring(word.length()-2);
+        if ((wordEnding.equals("le") || wordEnding.equals("ie")) && vowels.indexOf(word.charAt(word.length()-3)) == -1) {
+          count++;
+        }
       
     
-    //prevents silent e from being counted
-    else if (word.charAt(word.length()-1) == 'e') {count--;}
+        //prevents silent e from being counted
+        if (word.charAt(word.length()-1) == 'e') {count--;}
+          if (count < 1) {count = 1;}
+      return count;   
+    } else {
+      return 1;
+    }
     
+
     
-   return count; 
+   
   }
   //counts total syllables in the text
   public int totalSyllables() {
