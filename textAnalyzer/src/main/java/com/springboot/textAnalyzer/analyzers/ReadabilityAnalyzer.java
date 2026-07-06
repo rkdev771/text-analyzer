@@ -25,7 +25,7 @@ public class ReadabilityAnalyzer {
             double FK = 0.39 * ((double) wordCount / sentenceCount)
                       + 11.8 * ((double) syllableCount / wordCount)
                       - 15.59;
-            return Math.round(FK);
+            return Math.max(0, Math.round(FK));
         }
     }
 
