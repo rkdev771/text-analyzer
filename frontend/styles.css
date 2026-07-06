@@ -1,0 +1,355 @@
+/* ── Reset & Base ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #0a0a0a;
+  color: #e0e0e0;
+  min-height: 100vh;
+}
+
+/* ── Navbar ── */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 2rem;
+  border-bottom: 1px solid #1e1e1e;
+  background: #0f0f0f;
+}
+
+.nav-brand {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.05em;
+}
+
+.nav-legend {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.nav-legend-label {
+  color: #e0e0e0;
+  font-size: 0.8rem;
+  margin-right: 0.5rem;
+}
+
+/* ── Layout ── */
+.container {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 1.5rem;
+  padding: 1.5rem 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.left-column, .right-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* ── Cards ── */
+.card {
+  background: #111;
+  border: 1px solid #1e1e1e;
+  border-radius: 8px;
+  padding: 1.25rem;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  font-size: 0.85rem;
+  color: #888;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 0.75rem;
+}
+
+/* ── Textarea ── */
+textarea {
+  width: 100%;
+  height: 280px;
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-radius: 6px;
+  color: #e0e0e0;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  padding: 0.75rem;
+  resize: vertical;
+  outline: none;
+  font-family: inherit;
+}
+
+textarea:focus {
+  border-color: #3a3a3a;
+}
+
+/* ── Analyze Button ── */
+#analyze-btn {
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 1.25rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+#analyze-btn:hover {
+  background: #1d4ed8;
+}
+
+/* ── Filter Buttons ── */
+.filter-buttons {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.filter-btn {
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-radius: 4px;
+  color: #888;
+  padding: 0.25rem 0.6rem;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.filter-btn.active {
+  background: #2a2a2a;
+  color: #fff;
+  border-color: #3a3a3a;
+}
+
+/* ── Output Text ── */
+#output-text {
+  font-size: 0.9rem;
+  line-height: 1.8;
+  min-height: 280px;
+  padding: 0.75rem;
+  background: #1a1a1a;
+  border-radius: 6px;
+  border: 1px solid #2a2a2a;
+}
+
+/* ── Sentence Highlights ── */
+.sentence {
+  border-radius: 3px;
+  padding: 1px 2px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.sentence.hard {
+  background: rgba(239, 68, 68, 0.25);
+  border-bottom: 2px solid #ef4444;
+}
+
+.sentence.medium {
+  background: rgba(245, 158, 11, 0.25);
+  border-bottom: 2px solid #f59e0b;
+}
+
+.sentence.easy {
+  background: rgba(34, 197, 94, 0.25);
+  border-bottom: 2px solid #22c55e;
+}
+
+.sentence.hidden {
+  display: none;
+}
+
+/* ── Dots ── */
+.dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.dot.hard { background: #ef4444; }
+.dot.medium { background: #f59e0b; }
+.dot.easy { background: #22c55e; }
+
+/* ── Distribution Bar ── */
+.distribution-bar-container {
+  margin-top: 1rem;
+}
+
+.distribution-bar {
+  display: flex;
+  height: 6px;
+  border-radius: 3px;
+  overflow: hidden;
+  background: #1a1a1a;
+  margin-bottom: 0.5rem;
+}
+
+.bar-segment {
+  height: 100%;
+  transition: width 0.4s ease;
+}
+
+.bar-segment.hard { background: #ef4444; }
+.bar-segment.medium { background: #f59e0b; }
+.bar-segment.easy { background: #22c55e; }
+
+.distribution-legend {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.75rem;
+  color: #888;
+}
+
+/* ── Score Overview ── */
+.score-overview-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.label {
+  font-size: 0.7rem;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.25rem;
+}
+
+.big-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+/* ── Score Cards ── */
+.score-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+}
+
+#count-cards .score-cards-grid {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.score-card {
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-radius: 6px;
+  padding: 0.75rem;
+}
+
+.score-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.75rem;
+  color: #888;
+  margin-bottom: 0.5rem;
+}
+
+.score-value {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.score-label {
+  font-size: 0.7rem;
+  color: #666;
+  margin-top: 0.25rem;
+}
+
+/* ── Badge ── */
+.badge {
+  background: #1e3a5f;
+  color: #60a5fa;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 0.15rem 0.4rem;
+  border-radius: 3px;
+  letter-spacing: 0.05em;
+}
+
+/* ── Dropdowns ── */
+.dropdown {
+  border: 1px solid #1e1e1e;
+  border-radius: 6px;
+  margin-top: 0.5rem;
+  overflow: hidden;
+}
+
+.dropdown summary {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  cursor: pointer;
+  list-style: none;
+  font-size: 0.9rem;
+  color: #ccc;
+  background: #161616;
+}
+
+.dropdown summary:hover {
+  background: #1a1a1a;
+}
+
+.dropdown-content {
+  padding: 1rem;
+  background: #111;
+  border-top: 1px solid #1e1e1e;
+}
+
+.formula {
+  background: #1a1a1a;
+  border-radius: 4px;
+  padding: 0.6rem 0.75rem;
+  font-family: monospace;
+  font-size: 0.8rem;
+  color: #60a5fa;
+  margin-bottom: 0.75rem;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.info-grid > div {
+  background: #161616;
+  border-radius: 4px;
+  padding: 0.6rem;
+}
+
+.info-label {
+  font-size: 0.65rem;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.3rem;
+}
+
+.info-grid p {
+  font-size: 0.8rem;
+  color: #aaa;
+  line-height: 1.4;
+}

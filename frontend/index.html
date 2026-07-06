@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TextAnalyzer</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-brand">TextAnalyzer</div>
+    <div class="nav-legend">
+      <span class="nav-legend-label">Sentence Complexity</span>
+      <span class="dot hard"></span> Hard
+      <span class="dot medium"></span> Medium
+      <span class="dot easy"></span> Easy
+    </div>
+  </nav>
+
+  <!-- MAIN LAYOUT -->
+  <main class="container">
+
+    <!-- LEFT COLUMN -->
+    <div class="left-column">
+
+      <!-- Text Input Section -->
+      <section class="card" id="input-section">
+        <div class="card-header">
+          <span>Text Input</span>
+          <div class="text-stats">
+            <span id="word-count-live">0 words</span>
+            <span id="char-count-live">0 chars</span>
+          </div>
+        </div>
+        <textarea id="text-input" placeholder="Paste or type your text here..."></textarea>
+        <div class="card-footer">
+          <button id="analyze-btn">Analyze</button>
+        </div>
+      </section>
+
+      <!-- Analyzed Output Section -->
+      <section class="card" id="output-section">
+        <div class="card-header">
+          <span>Analyzed Output</span>
+          <div class="filter-buttons">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn hard" data-filter="hard">Hard</button>
+            <button class="filter-btn medium" data-filter="medium">Medium</button>
+            <button class="filter-btn easy" data-filter="easy">Easy</button>
+          </div>
+        </div>
+        <div id="output-text"></div>
+
+        <!-- Complexity Distribution Bar -->
+        <div class="distribution-bar-container">
+          <div class="distribution-bar">
+            <div class="bar-segment hard" id="bar-hard"></div>
+            <div class="bar-segment medium" id="bar-medium"></div>
+            <div class="bar-segment easy" id="bar-easy"></div>
+          </div>
+          <div class="distribution-legend">
+            <span><span class="dot hard"></span> Hard <span id="pct-hard">0%</span></span>
+            <span><span class="dot medium"></span> Medium <span id="pct-medium">0%</span></span>
+            <span><span class="dot easy"></span> Easy <span id="pct-easy">0%</span></span>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- RIGHT COLUMN -->
+    <div class="right-column">
+
+      <!-- Grade Level + Overall Score -->
+      <section class="card" id="score-overview">
+        <div class="score-overview-grid">
+          <div>
+            <div class="label">GRADE LEVEL</div>
+            <div class="big-value" id="grade-level">--</div>
+          </div>
+          <div>
+            <div class="label">OVERALL</div>
+            <div class="big-value" id="overall-score">--</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Readability Score Cards -->
+      <section class="card" id="score-cards">
+        <div class="score-cards-grid">
+          <div class="score-card">
+            <div class="score-card-header">
+              <span>Flesch-Kincaid</span>
+              <span class="badge">FK</span>
+            </div>
+            <div class="score-value" id="fk-score">--</div>
+            <div class="score-label">Grade level score</div>
+          </div>
+          <div class="score-card">
+            <div class="score-card-header">
+              <span>SMOG Index</span>
+              <span class="badge">SMOG</span>
+            </div>
+            <div class="score-value" id="smog-score">--</div>
+            <div class="score-label">Grade level (medical)</div>
+          </div>
+          <div class="score-card">
+            <div class="score-card-header">
+              <span>Gunning Fog</span>
+              <span class="badge">FOG</span>
+            </div>
+            <div class="score-value" id="fog-score">--</div>
+            <div class="score-label">Years of education</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Word + Sentence Count -->
+      <section class="card" id="count-cards">
+        <div class="score-cards-grid">
+          <div class="score-card">
+            <div class="score-card-header">
+              <span>Word Count</span>
+              <span class="badge">W</span>
+            </div>
+            <div class="score-value" id="word-count">--</div>
+          </div>
+          <div class="score-card">
+            <div class="score-card-header">
+              <span>Sentence Count</span>
+              <span class="badge">S</span>
+            </div>
+            <div class="score-value" id="sentence-count">--</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Score Reference Dropdowns -->
+      <section class="card" id="score-reference">
+        <div class="label">Score Reference</div>
+
+        <details class="dropdown">
+          <summary>
+            <span class="badge">FK</span>
+            <span>Flesch-Kincaid Grade</span>
+          </summary>
+          <div class="dropdown-content">
+            <div class="formula">score = 0.39 × (words/sentences) + 11.8 × (syllables/words) - 15.59</div>
+            <div class="info-grid">
+              <div><div class="info-label">WHAT IT MEASURES</div><p>Estimates the U.S. school grade level needed to understand the text.</p></div>
+              <div><div class="info-label">WHEN IT'S MOST ACCURATE</div><p>Best for general content — news articles, blog posts, business writing.</p></div>
+              <div><div class="info-label">SCORE RANGE</div><p>0–20+, where lower = easier and higher = more complex.</p></div>
+              <div><div class="info-label">LIMITATION</div><p>Less accurate for highly technical or scientific texts.</p></div>
+            </div>
+          </div>
+        </details>
+
+        <details class="dropdown">
+          <summary>
+            <span class="badge">SMOG</span>
+            <span>SMOG Index</span>
+          </summary>
+          <div class="dropdown-content">
+            <div class="formula">score = 1.043 × √(complex words × (30 / sentences)) + 3.1291</div>
+            <div class="info-grid">
+              <div><div class="info-label">WHAT IT MEASURES</div><p>Estimates years of education needed to understand the text.</p></div>
+              <div><div class="info-label">WHEN IT'S MOST ACCURATE</div><p>Best for health and medical literature.</p></div>
+              <div><div class="info-label">SCORE RANGE</div><p>Typically 6–18, correlating to grade levels.</p></div>
+              <div><div class="info-label">LIMITATION</div><p>Requires at least 30 sentences for accuracy.</p></div>
+            </div>
+          </div>
+        </details>
+
+        <details class="dropdown">
+          <summary>
+            <span class="badge">FOG</span>
+            <span>Gunning Fog Index</span>
+          </summary>
+          <div class="dropdown-content">
+            <div class="formula">score = 0.4 × ((words/sentences) + 100 × (complex words/words))</div>
+            <div class="info-grid">
+              <div><div class="info-label">WHAT IT MEASURES</div><p>Estimates years of formal education needed to read the text on first pass.</p></div>
+              <div><div class="info-label">WHEN IT'S MOST ACCURATE</div><p>Best for business and financial writing.</p></div>
+              <div><div class="info-label">SCORE RANGE</div><p>6–17+, where 12 is ideal for most audiences.</p></div>
+              <div><div class="info-label">LIMITATION</div><p>Overestimates difficulty for texts with many proper nouns.</p></div>
+            </div>
+          </div>
+        </details>
+
+      </section>
+
+    </div>
+
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
