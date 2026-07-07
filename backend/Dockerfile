@@ -4,6 +4,6 @@ WORKDIR /app
 
 COPY . .
 
-RUN ./mvnw clean package
+RUN chmod +x ./mvnw
 
 CMD ["java", "-jar", "target/*.jar"]
