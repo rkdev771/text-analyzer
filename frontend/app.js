@@ -20,7 +20,7 @@ analyzeBtn.addEventListener('click', async () => {
 
     try {
         // POST request to Spring Boot backend with raw text as JSON body
-        const response = await fetch('http://localhost:8080/analyzer', {
+        const response = await fetch('https://text-analyzer-7s8s.onrender.com/analyzer', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ text: text })
