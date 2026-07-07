@@ -20,6 +20,9 @@ public class AnalysisController {
 
     @PostMapping
     public AnalysisResponse analyzeText(@RequestBody AnalysisRequest request) {
+        if(request.getText() == null || request.getText().isBlank()){
+            throw new IllegalArgumentException("Text cannot be empty");
+        }
         return analysisService.analyzeText(request.getText());
     }
 }
