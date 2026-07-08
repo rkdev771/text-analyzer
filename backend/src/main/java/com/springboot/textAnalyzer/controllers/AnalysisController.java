@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("/analyzer")
-@CrossOrigin(origins = "https://text-analyzer-wjn3.onrender.com/")
+@CrossOrigin(origins = "*")
 public class AnalysisController {
     @Autowired
     private TextAnalysisService analysisService;
